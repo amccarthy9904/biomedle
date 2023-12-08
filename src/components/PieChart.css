@@ -1,0 +1,11 @@
+/* PieChart.css */
+
+.pie-chart {
+  max-width: 100px; /* Adjust the width as needed */
+  margin: 20px auto; /* Center the chart */
+}
+
+canvas {
+  max-width: 100px; /* Adjust the width as needed */
+  margin: 20px auto; /* Center the chart */
+}
