@@ -41,10 +41,18 @@ const Game = () => {
   // handle the user's guess
   const onGuess = () => {
     
+    var c = new String("[")
+
+    for (let index = 0; index < countryList.getData().length; index++) {
+      c = c + "\'" + countryList.getData()[index]["name"] + "\'" + ", ";
+      
+    }
+    c = c + "]"
     console.log('User Guessed:', userInput);
     const countryCode = filterInput(userInput)
     // console.log(countryList.getCode(userInput))
-    // console.log(countryCode)
+    
+    console.log(c)
     if (countryCode) {
       setLatestGuess(countryCode);
     } else {
