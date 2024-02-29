@@ -17,7 +17,7 @@ const Template = ({ children }) => {
       </body>
 
       <footer>
-        <p>Created by Your Name | Year</p>
+        <p>Aaron McCarthy | 2024</p>
       </footer>
     </div>
   );
