@@ -4,10 +4,8 @@ import React, { useState } from 'react';
 import Template from './Template';
 import PieChart from './PieChart';
 import seedrandom from 'seedrandom';
-import { API } from 'aws-amplify';
-// import { Amplify } from 'aws-amplify';
-// import config from './amplifyconfiguration.json';
-// Amplify.configure(config);
+
+
 
 const Game = () => {
   // Sample data for testing
@@ -63,9 +61,21 @@ const Game = () => {
 
 
   const getData = (country_name) => {
-    fetch(country_data_url + country_name)
-      .then(response => response.json())
-      .then(data => console.log(data));
+    try {
+      const response = fetch(country_data_url + country_name, {
+        method: 'GET',
+        headers: {
+          'Origin': 'https://9904.io', // Include the 'Origin' header
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = response.json();
+      console.log('Data from API:', data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
   }
 
 

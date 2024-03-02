@@ -4,6 +4,8 @@ import React from 'react';
 import {BrowserRouter, Routes, Route,} from "react-router-dom";
 import Home from './components/Home';
 import Game from './components/Game'; 
+// import { withAuthenticator } from 'aws-amplify-react'
+
 
 const App = () => {
   return (
@@ -17,3 +19,6 @@ const App = () => {
 };
 
 export default App;
+
+
+// export default withAuthenticator(App, { includeGreetings: true })
