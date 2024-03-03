@@ -140,7 +140,7 @@ const Game = () => {
           <option key={index} value={country} />
         ))}
       </datalist>
-        <button onClick={onGuess}>Search - getData</button>
+        <button onClick={onGuess}>Search - getData noe</button>
         {/* Render the PieChart component with the data from the latest guess */}
         {latestGuess && <PieChart data={chartData} />}
 
