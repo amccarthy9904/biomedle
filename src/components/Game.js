@@ -64,9 +64,9 @@ const Game = () => {
     try {
       const response = fetch(country_data_url + country_name, {
         method: 'GET',
-        headers: {
-          'Origin': 'https://notreal9904.io/game', 
-        },
+        // headers: {
+        //   'Origin': 'https://notreal9904.io/game', 
+        // },
       });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
