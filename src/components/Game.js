@@ -65,7 +65,7 @@ const Game = () => {
       const response = fetch(country_data_url + country_name, {
         method: 'GET',
         headers: {
-          'Origin': 'https://9904.io/game', // Include the 'Origin' header
+          'Origin': 'https://notreal9904.io/game', 
         },
       });
       if (!response.ok) {
