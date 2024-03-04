@@ -31,12 +31,6 @@ const Game = () => {
   let country_data_url = 'https://7bwp04kcs8.execute-api.us-west-2.amazonaws.com/prod/country/data?countryName='
   let country_image_url = 'https://7bwp04kcs8.execute-api.us-west-2.amazonaws.com/prod/country/image?countryName='
   let countries_set = new Set(countries)
-  let curr_country = getRandomCountryOfTheDay()
-  let curr_country_data = callAPI(country_data_url + curr_country)
-  let curr_country_image = callAPI(country_image_url + curr_country)
-
-  console.log('curr_country_data', curr_country_data)
-  console.log('curr_country_image', curr_country_image)
   
 
 
@@ -104,6 +98,13 @@ const Game = () => {
   const closeInfoPopup = () => {
     setInfoPopupVisible(false);
   };
+
+  let curr_country = getRandomCountryOfTheDay()
+  let curr_country_data = callAPI(country_data_url + curr_country)
+  let curr_country_image = callAPI(country_image_url + curr_country)
+
+  console.log('curr_country_data', curr_country_data)
+  console.log('curr_country_image', curr_country_image)
 
   return (
     <Template>
