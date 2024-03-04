@@ -110,8 +110,6 @@ const Game = () => {
     setImg(image_resp.image);
     console.log('curr_country_data', curr_country_data)
     console.log('curr_country_image', image_resp)
-
-
   }, [country_data_url, country_image_url, getRandomCountryOfTheDay]);
   
 
