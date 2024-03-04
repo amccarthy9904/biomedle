@@ -60,19 +60,17 @@ const Game = () => {
   }
 
 
-  const getData = (country_name) => {
+  const callAPI = (endpoint, country_name) => {
     try {
-      const response = fetch(country_data_url + country_name, {
-        method: 'GET',
-        // headers: {
-        //   'Origin': 'https://notreal9904.io/game', 
-        // },
+      const response = fetch(endpoint + country_name, {
+        method: 'GET'
       });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = response.json();
       console.log('Data from API:', data);
+      return response
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -92,22 +90,23 @@ const Game = () => {
     console.log('size:', country_names.length)
 
     console.log('User Guessed:', input);
-    if (!isValidCountryName(input)){
+    if (isValidCountryName(input)){
+    
+      setLatestGuess(userInput);
+      console.log('Country found:', input);
+      
+      let url = endpoint + encodeURIComponent(input)
+      console.log(url)
+      callAPI(country_data_url, input)
+      setUserInput('');
+    }
+
+    else{
       setInfoPopupVisible(true);
       console.log('Country not found:', input);
-      return 
     }
-    
-    setLatestGuess(userInput);
-    console.log('Country found:', input);
-    
-    let url = endpoint + encodeURIComponent(input)
-    console.log(url)
-    getData(input)
-    setUserInput('');
   };
 
-  // filter input and return the country code
   const isValidCountryName = (input) => {
     return countries_set.has(input)
   };
@@ -133,14 +132,14 @@ const Game = () => {
           list="countrySuggestions"
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
-          placeholder="Type your guess..."
+          placeholder="Guess a Country"
         />
         <datalist id="countrySuggestions">
         {getSuggestedCountries().map((country, index) => (
           <option key={index} value={country} />
         ))}
       </datalist>
-        <button onClick={onGuess}>Search - getData noe</button>
+        <button onClick={onGuess}>Search</button>
         {/* Render the PieChart component with the data from the latest guess */}
         {latestGuess && <PieChart data={chartData} />}
 
