@@ -64,8 +64,8 @@ const Game = () => {
       const response = fetch(endpoint, {
         method: 'GET'
       });
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+      if (!response.Item) {
+        throw new Error(`HTTP error! response: ${response}`);
       }
       const data = response.json();
       console.log('Data from API:', data);
