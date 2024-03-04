@@ -49,7 +49,7 @@ const Game = () => {
     return randomCountry;
   };
   const printCountries = () => {
-    var c = new String("[")
+    var c = "["
 
     for (let index = 0; index < countries.length; index++) {
       c = c + "\'" + countries[index] + "\'" + ", ";
@@ -61,7 +61,7 @@ const Game = () => {
 
   const callAPI = async (endpoint) => {
     try {
-      const response = fetch(endpoint, {
+      const response = await fetch(endpoint, {
         method: 'GET'
       });
       const data = await response.json();
