@@ -1,6 +1,6 @@
 // Game.js
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Template from './Template';
 import PieChart from './PieChart';
 import seedrandom from 'seedrandom';
@@ -23,6 +23,8 @@ const Game = () => {
   const [userInput, setUserInput] = useState('');
   const [latestGuess, setLatestGuess] = useState(null);
   const [infoPopupVisible, setInfoPopupVisible] = useState(false);
+  const [currImgVisible, setImgVisible] = useState(false)
+  const [currCountryImg, setImg] = useState('')
 
   let colors = {'Deserts & Xeric Shrublands': '#FA647F', 'N/A': '#E2E2E0', 'Tropical & Subtropical Moist Broadleaf Forests': '#304A00', 'Mediterranean Forests, Woodlands & Scrub': '#FFA77F', 'Temperate Broadleaf & Mixed Forests': '#267300', 'Tropical & Subtropical Coniferous Forests': '#00734C', 'Temperate Conifer Forests': '#92BA71', 'Boreal Forests/Taiga': '#E2C7FA', 'Flooded Grasslands & Savannas': '#5993B9', 'Temperate Grasslands, Savannas & Shrublands': '#F6FC38', 'Montane Grasslands & Shrublands': '#C98D68', 'Tropical & Subtropical Dry Broadleaf Forests': '#99C726', 'Tropical & Subtropical Grasslands, Savannas & Shrublands': '#FBA141', 'Mangroves': '#E600AA', 'Tundra': '#4C82B6'}
   let countries = ['andorra', 'united arab emirates', 'afghanistan', 'antigua and barbuda', 'anguilla', 'albania', 'armenia', 'angola', 'antarctica', 'argentina', 'american samoa', 'austria', 'australia', 'aruba', 'åland islands', 'azerbaijan', 'bosnia and herzegovina', 'barbados', 'bangladesh', 'belgium', 'burkina faso', 'bulgaria', 'bahrain', 'burundi', 'benin', 'saint barthélemy', 'bermuda', 'brunei darussalam', 'bolivia, plurinational state of', 'bonaire, sint eustatius and saba', 'brazil', 'bahamas', 'bhutan', 'bouvet island', 'botswana', 'belarus', 'belize', 'canada', 'cocos (keeling) islands', 'congo, democratic republic of the', 'central african republic', 'congo', 'switzerland', 'côte d\'ivoire', 'cook islands', 'chile', 'cameroon', 'china', 'colombia', 'costa rica', 'cuba', 'cabo verde', 'curaçao', 'christmas island', 'cyprus', 'czechia', 'germany', 'djibouti', 'denmark', 'dominica', 'dominican republic', 'algeria', 'ecuador', 'estonia', 'egypt', 'western sahara', 'eritrea', 'spain', 'ethiopia', 'finland', 'fiji', 'falkland islands (malvinas)', 'micronesia, federated states of', 'faroe islands', 'france', 'gabon', 'united kingdom of great britain and northern ireland', 'grenada', 'georgia', 'french guiana', 'guernsey', 'ghana', 'gibraltar', 'greenland', 'gambia', 'guinea', 'guadeloupe', 'equatorial guinea', 'greece', 'south georgia and the south sandwich islands', 'guatemala', 'guam', 'guinea-bissau', 'guyana', 'hong kong', 'heard island and mcdonald islands', 'honduras', 'croatia', 'haiti', 'hungary', 'indonesia', 'ireland', 'israel', 'isle of man', 'india', 'british indian ocean territory', 'iraq', 'iran, islamic republic of', 'iceland', 'italy', 'jersey', 'jamaica', 'jordan', 'japan', 'kenya', 'kyrgyzstan', 'cambodia', 'kiribati', 'comoros', 'saint kitts and nevis', 'korea, democratic people\'s republic of', 'korea, republic of', 'kuwait', 'cayman islands', 'kazakhstan', 'lao people\'s democratic republic', 'lebanon', 'saint lucia', 'liechtenstein', 'sri lanka', 'liberia', 'lesotho', 'lithuania', 'luxembourg', 'latvia', 'libya', 'morocco', 'monaco', 'moldova, republic of', 'montenegro', 'saint martin, (french part)', 'madagascar', 'marshall islands', 'north macedonia', 'mali', 'myanmar', 'mongolia', 'macao', 'northern mariana islands', 'martinique', 'mauritania', 'montserrat', 'malta', 'mauritius', 'maldives', 'malawi', 'mexico', 'malaysia', 'mozambique', 'namibia', 'new caledonia', 'niger', 'norfolk island', 'nigeria', 'nicaragua', 'netherlands', 'norway', 'nepal', 'nauru', 'niue', 'new zealand', 'oman', 'panama', 'peru', 'french polynesia', 'papua new guinea', 'philippines', 'pakistan', 'poland', 'saint pierre and miquelon', 'pitcairn', 'puerto rico', 'palestine, state of', 'portugal', 'palau', 'paraguay', 'qatar', 'réunion', 'romania', 'serbia', 'russia', 'rwanda', 'saudi arabia', 'solomon islands', 'seychelles', 'sudan', 'sweden', 'singapore', 'saint helena, ascension and tristan da cunha', 'slovenia', 'svalbard and jan mayen', 'slovakia', 'sierra leone', 'san marino', 'senegal', 'somalia', 'suriname', 'south sudan', 'sao tome and principe', 'el salvador', 'sint maarten, (dutch part)', 'syrian arab republic', 'eswatini', 'turks and caicos islands', 'chad', 'french southern territories', 'togo', 'thailand', 'tajikistan', 'tokelau', 'timor-leste', 'turkmenistan', 'tunisia', 'tonga', 'türkiye', 'trinidad and tobago', 'tuvalu', 'taiwan, province of china', 'tanzania, united republic of', 'ukraine', 'uganda', 'united states minor outlying islands', 'united states of america', 'uruguay', 'uzbekistan', 'holy see', 'saint vincent and the grenadines', 'venezuela, bolivarian republic of', 'virgin islands, british', 'virgin islands, u.s.', 'viet nam', 'vanuatu', 'wallis and futuna', 'samoa', 'yemen', 'mayotte', 'south africa', 'zambia', 'zimbabwe']
@@ -79,6 +81,10 @@ const Game = () => {
       
       let response = callAPI(country_data_url + encodeURIComponent(input))
       console.log(response)
+      if (input === curr_country){
+        setImgVisible(true)
+        console.log('you win the game')
+      }
       setUserInput('');
     }
 
@@ -97,13 +103,17 @@ const Game = () => {
   };
 
 
+  useEffect(() => {
+    const curr_country = getRandomCountryOfTheDay()
+    const curr_country_data = callAPI(country_data_url + curr_country)
+    let image_resp = callAPI(country_image_url + curr_country)
+    setImg(image_resp.image);
+    console.log('curr_country_data', curr_country_data)
+    console.log('curr_country_image', image_resp)
 
-  const curr_country = getRandomCountryOfTheDay()
-  const curr_country_data = callAPI(country_data_url + curr_country)
-  const curr_country_image = callAPI(country_image_url + curr_country)
 
-  console.log('curr_country_data', curr_country_data)
-  console.log('curr_country_image', curr_country_image)
+  }, [country_data_url, country_image_url, getRandomCountryOfTheDay]);
+  
 
   return (
     <Template>
@@ -114,6 +124,7 @@ const Game = () => {
         
         
       </div>
+      <img>currCountryImg</img>
       <div>
         <label htmlFor="countryInput">Country:</label>
         <input
