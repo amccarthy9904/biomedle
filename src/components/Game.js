@@ -23,7 +23,6 @@ const Game = () => {
   const [userInput, setUserInput] = useState('');
   const [latestGuess, setLatestGuess] = useState(null);
   const [infoPopupVisible, setInfoPopupVisible] = useState(false);
-  const endpoint = 'https://kav2cyk397.execute-api.us-west-2.amazonaws.com/prod/getCountry?country='
   
   // const handleInputChange = (event) => {
   //   setUserInput(event.target.value);
@@ -60,9 +59,9 @@ const Game = () => {
   }
 
 
-  const callAPI = (endpoint, country_name) => {
+  const callAPI = (endpoint) => {
     try {
-      const response = fetch(endpoint + country_name, {
+      const response = fetch(endpoint, {
         method: 'GET'
       });
       if (!response.ok) {
@@ -83,7 +82,6 @@ const Game = () => {
       .slice(0, 5);
   };
 
-  // handle the user's guess
   const onGuess = () => {
 
     let input = userInput.toLowerCase()
@@ -95,9 +93,10 @@ const Game = () => {
       setLatestGuess(userInput);
       console.log('Country found:', input);
       
-      let url = endpoint + encodeURIComponent(input)
+      let url = country_data_url + encodeURIComponent(input)
       console.log(url)
-      callAPI(country_data_url, input)
+      let response = callAPI(url)
+      console.log(response)
       setUserInput('');
     }
 
