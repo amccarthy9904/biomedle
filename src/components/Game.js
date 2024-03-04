@@ -59,15 +59,12 @@ const Game = () => {
   }
 
 
-  const callAPI = (endpoint) => {
+  const callAPI = async (endpoint) => {
     try {
       const response = fetch(endpoint, {
         method: 'GET'
       });
-      // if (!response.Item) {
-      //   throw new Error(`HTTP error! response: ${response}`);
-      // }
-      const data = response.json();
+      const data = await response.json();
       console.log('Data from API:', data);
       return response
     } catch (error) {
