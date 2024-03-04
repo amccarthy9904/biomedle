@@ -74,8 +74,7 @@ const Game = () => {
   };
 
   const onGuess = () => {
-    let input = userInput.replace(/[^a-zA-Z' ]+/g, '').toLowerCase()
-    // let input = userInput.toLowerCase()
+    let input = userInput.replace(/[^a-zA-Z' ô().üç]+/g, '').toLowerCase()
     console.log('sani input:', input)
 
     console.log('User Guessed:', input);
