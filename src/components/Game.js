@@ -112,7 +112,7 @@ const Game = () => {
   
   const fetchImage = async () => {
     const res = await callAPI(country_image_url + currCountry);
-    console.log(res)
+    console.log("response", res)
     setImg(res.image);
   };
 
