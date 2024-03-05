@@ -107,6 +107,10 @@ const Game = () => {
 
   
   const fetchImage = async () => {
+    setCurrCountry(getRandomCountryOfTheDay)
+    console.log('SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSss')
+    console.log(currCountry)
+    console.log('SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSss')
     const res = await callAPI(country_image_url + currCountry);
     setImg(res.image);
   };
