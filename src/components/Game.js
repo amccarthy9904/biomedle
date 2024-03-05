@@ -108,11 +108,11 @@ const Game = () => {
   useEffect(() => {
     setCurrCountry(getRandomCountryOfTheDay())
     setData(callAPI(country_data_url + currCountry))
-    setImg(callAPI(country_image_url + currCountry))
-    setImg(currCountryImg.image);
+    let img_resp = callAPI(country_image_url + currCountry)
+    setImg(img_resp.image);
     console.log('curr_country_data', currCountryData)
     console.log('curr_country_image', currCountryImg)
-  }, [country_data_url, country_image_url, currCountry, currCountryImg, currCountryData, getRandomCountryOfTheDay]);
+  }, []);
   
 
   return (
@@ -124,7 +124,11 @@ const Game = () => {
         
         
       </div>
-      <img>currCountryImg</img>
+      <div>
+      {currCountryImg && (
+        <img src={`data:image/png;base64,${currCountryImg}`} alt="Base64 Image" />
+      )}
+    </div>
       <div>
         <label htmlFor="countryInput">Country:</label>
         <input
