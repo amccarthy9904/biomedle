@@ -1,0 +1,10 @@
+/* Game.css */
+
+.image-container {
+  max-width: 33.33vw;
+  height: auto;
+  display: block;
+  margin: auto; /* Optional: Center the image */
+  /* max-width: 750px;
+  max-height: 750px; */
+}
