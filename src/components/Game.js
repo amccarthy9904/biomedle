@@ -62,7 +62,7 @@ const Game = () => {
       });
       const data = await response.json();
       console.log('Data from API:', data);
-      return response
+      return data
     } catch (error) {
       console.error('Error fetching data:', error);
     }
