@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Template from './Template';
 import PieChart from './PieChart';
+import ScoreBoard from './ScoreBoard';
 import seedrandom from 'seedrandom';
 import { tab } from '@testing-library/user-event/dist/tab';
 
@@ -51,6 +52,7 @@ const Game = () => {
   const [currCountryImg, setImg] = useState('')
   const [currCountryData, setData] = useState('')
   const currCountry = getRandomCountryOfTheDay()
+  const scoreBoard = ScoreBoard()
 
 
 
@@ -97,6 +99,9 @@ const Game = () => {
         setImgVisible(true)
         console.log('you win the game')
       }
+
+
+      scoreBoard.addGuess(input, response.Item.total_area)
       setUserInput('');
     }
 
@@ -182,6 +187,10 @@ const Game = () => {
       <button onClick={getRandomCountryOfTheDay}>get_todays_country</button>
 
       <button onClick={start}>get_image</button>
+      <div>
+        <p>scoreboard</p>
+        {scoreBoard}
+      </div>
       </div>
     </Template>
   );
