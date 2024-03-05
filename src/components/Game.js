@@ -48,6 +48,7 @@ const Game = () => {
     if (broken_countries.has(randomCountry)){
       randomCountry = countries[randomIndex + 1]
     }
+    console.log(randomCountry)
     return randomCountry;
   };
 
@@ -104,15 +105,26 @@ const Game = () => {
     setInfoPopupVisible(false);
   };
 
+  
+  const fetchImage = async () => {
+    const res = await callAPI(country_image_url + currCountry);
+    setImg(res.image);
+  };
 
   useEffect(() => {
-    setCurrCountry(getRandomCountryOfTheDay())
-    setData(callAPI(country_data_url + currCountry))
-    let img_resp = callAPI(country_image_url + currCountry)
-    setImg(img_resp.image);
-    console.log('curr_country_data', currCountryData)
-    console.log('curr_country_image', currCountryImg)
+    fetchImage();
   }, []);
+
+
+  // useEffect(() => {
+  //   setCurrCountry(getRandomCountryOfTheDay())
+  //   console.log(currCountry)
+  //   setData(callAPI(country_data_url + currCountry))
+  //   let img_resp = callAPI(country_image_url + currCountry)
+  //   setImg(img_resp.image);
+  //   console.log('curr_country_data', currCountryData)
+  //   console.log('curr_country_image', currCountryImg)
+  // }, []);
   
 
   return (
@@ -126,7 +138,7 @@ const Game = () => {
       </div>
       <div>
       {currCountryImg && (
-        <img src={`data:image/png;base64,${currCountryImg}`} alt="Base64 Image" />
+        <img src={`data:image/png;base64,${currCountryImg}`} alt="Base64" />
       )}
     </div>
       <div>
