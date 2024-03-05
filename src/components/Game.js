@@ -117,8 +117,9 @@ const Game = () => {
   
   const fetchImage = async () => {
     const res = await callAPI(country_image_url + currCountry);
-    console.log("response", res.json())
-    setImg(res.json().image);
+    console.log("response", res)
+    console.log("res.image", res.image)
+    setImg(res.image);
   };
 
   useEffect(() => {
