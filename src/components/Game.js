@@ -75,6 +75,11 @@ const Game = () => {
       .slice(0, 5);
   };
 
+  const start = () => {
+    fetchImage()
+
+  }
+
   const onGuess = () => {
     console.log("currentimg", currCountryImg)
     let input = userInput.replace(/[^a-zA-Z' ô().üç]+/g, '').toLowerCase()
@@ -141,6 +146,7 @@ const Game = () => {
         
         
       </div>
+      <p>{currCountryImg}</p>
       <div>
       {currCountryImg && (
         <img src={`data:image/png;base64,${currCountryImg}`} alt="Base64" />
@@ -174,6 +180,8 @@ const Game = () => {
         )}
 
       <button onClick={getRandomCountryOfTheDay}>get_todays_country</button>
+
+      <button onClick={start}>get_image</button>
       </div>
     </Template>
   );
