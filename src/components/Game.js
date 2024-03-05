@@ -76,7 +76,7 @@ const Game = () => {
   };
 
   const onGuess = () => {
-    console.log(currCountryImg)
+    console.log("currentimg", currCountryImg)
     let input = userInput.replace(/[^a-zA-Z' ô().üç]+/g, '').toLowerCase()
     console.log('sani input:', input)
 
