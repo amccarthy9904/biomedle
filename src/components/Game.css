@@ -2,6 +2,7 @@
 
 .image-container {
   max-width: 33.33vw;
+  max-height: 400px;  /* Maximum height of 400 pixels */
   height: auto;
   display: block;
   margin: auto; /* Optional: Center the image */

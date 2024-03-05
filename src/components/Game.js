@@ -147,7 +147,6 @@ const Game = () => {
         
         
       </div>
-      <p>this is where the image p is{currCountryImg}</p>
       <div>
       {currCountryImg && (
         <img src={`data:image/png;base64,${currCountryImg}`} alt="Base64" className="image-container"/>
