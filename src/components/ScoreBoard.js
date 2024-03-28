@@ -1,28 +1,34 @@
-// ScoreBoard.js
+import React, { useState } from 'react';
 
-import React, { useEffect } from 'react';
+const Scoreboard = (limit) => {
+ const [scores, setScores] = useState([]);
+ const [guessCount, setGuessCount] = useState(0);
+ const guessLimit = limit
 
-import Score from './Score'
+ const addScore = (name, area) => {
+    setGuessCount(guessCount + 1); 
+    const newScore = { name, area };
+    setScores([...scores, newScore]);
+    return guessCount < guessLimit
+ };
 
-const ScoreBoard = () => {
-
-  let scores = []
-
-
-  const addGuess = (countryName, data) => {
-    scores.push(<li>{Score(countryName, data)}</li>)
-  }
-  
-
-  // useEffect(() => {
-  //   numbers.map((number) =>);
-  // }, [scores]);
-  
-  return (
-    <div className="scoreboard">
-      <ul>{scores}</ul>
+ return (
+    <div>
+      <div className='guess_counter'>
+        <p>{guessCount} / {guessLimit} </p>
+      </div>
+      <ul>
+        {scores.map((score, index) => (
+          <li key={index}>
+            <div>
+              <span>{score.name}</span> - <span>{score.area}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <button onClick={() => addScore('Player 1', 'Area 1')}>Add Score</button>
     </div>
-  );
+ );
 };
 
-export default ScoreBoard;
+export default Scoreboard;

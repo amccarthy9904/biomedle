@@ -5,7 +5,8 @@ import Template from './Template';
 import PieChart from './PieChart';
 import ScoreBoard from './ScoreBoard';
 import seedrandom from 'seedrandom';
-import { tab } from '@testing-library/user-event/dist/tab';
+// import { tab } from '@testing-library/user-event/dist/tab';
+import placeholderImage from '../img/india.jpg';
 
 
 
@@ -48,14 +49,11 @@ const Game = () => {
   const [userInput, setUserInput] = useState('');
   const [latestGuess, setLatestGuess] = useState(null);
   const [infoPopupVisible, setInfoPopupVisible] = useState(false);
-  const [currImgVisible, setImgVisible] = useState(false)
   const [currCountryImg, setImg] = useState('')
   const [currCountryData, setData] = useState('')
   const currCountry = getRandomCountryOfTheDay()
-  const scoreBoard = ScoreBoard()
-
-
-
+  const scoreBoard = ScoreBoard(10)
+  const [showImage, setImgVisible] = useState(false);
 
   const callAPI = async (endpoint) => {
     try {
@@ -67,9 +65,9 @@ const Game = () => {
       return data
     } catch (error) {
       console.error('Error fetching data:', error);
+      return 
     }
   }
-
 
   const getSuggestedCountries = () => {
     return country_names
@@ -77,9 +75,8 @@ const Game = () => {
       .slice(0, 5);
   };
 
-  const start = () => {
-    fetchImage()
-
+  const getImage = () => {
+    fetchImage();
   }
 
   const onGuess = () => {
@@ -88,7 +85,7 @@ const Game = () => {
     console.log('sani input:', input)
 
     console.log('User Guessed:', input);
-    if (isValidCountryName(input)){
+    if (countries_set.has(input)){
     
       setLatestGuess(userInput);
       console.log('Country found:', input);
@@ -100,8 +97,7 @@ const Game = () => {
         console.log('you win the game')
       }
 
-
-      scoreBoard.addGuess(input, response.Item.total_area)
+      scoreBoard.addScore(input, response.Item.total_area)
       setUserInput('');
     }
 
@@ -109,10 +105,7 @@ const Game = () => {
       setInfoPopupVisible(true);
       console.log('Country not found:', input);
     }
-  };
 
-  const isValidCountryName = (input) => {
-    return countries_set.has(input)
   };
   
   const closeInfoPopup = () => {
@@ -122,25 +115,16 @@ const Game = () => {
   
   const fetchImage = async () => {
     const res = await callAPI(country_image_url + currCountry);
-    console.log("response", res)
-    console.log("res.image", res.image)
-    setImg(res.image);
+    // console.log("response", res)
+    // console.log("res.image", res.image)
+    const img = res ? `data:image/png;base64,${res.image}` : `data:image/png;base64,${placeholderImage}`
+    setImg(img);
+    // setImgVisible(true)
   };
 
   useEffect(() => {
-    fetchImage();
+    // fetchImage();
   }, []);
-
-
-  // useEffect(() => {
-  //   setCurrCountry(getRandomCountryOfTheDay())
-  //   console.log(currCountry)
-  //   setData(callAPI(country_data_url + currCountry))
-  //   let img_resp = callAPI(country_image_url + currCountry)
-  //   setImg(img_resp.image);
-  //   console.log('curr_country_data', currCountryData)
-  //   console.log('curr_country_image', currCountryImg)
-  // }, []);
   
 
   return (
@@ -153,9 +137,10 @@ const Game = () => {
         
       </div>
       <div>
-      {currCountryImg && (
-        <img src={`data:image/png;base64,${currCountryImg}`} alt="Base64" className="image-container"/>
-      )}
+      {showImage && (
+        <img src={currCountryImg} alt="Country" className="image-container"/>
+        )}
+
     </div>
       <div>
         <label htmlFor="countryInput">Country:</label>
@@ -186,7 +171,7 @@ const Game = () => {
 
       <button onClick={getRandomCountryOfTheDay}>get_todays_country</button>
 
-      <button onClick={start}>get_image</button>
+      <button onClick={getImage}>get_image</button>
       <div>
         <p>scoreboard</p>
         {scoreBoard}

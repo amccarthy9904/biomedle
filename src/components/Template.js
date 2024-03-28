@@ -10,11 +10,11 @@ const Template = ({ children }) => {
           <h1>Biome.dle</h1>
       </header>
       
-      <body>
-        <main>
-          {children}
-        </main>
-      </body>
+      
+      <main>
+        {children}
+      </main>
+    
 
       <footer>
         <p>Aaron McCarthy | 2024</p>
