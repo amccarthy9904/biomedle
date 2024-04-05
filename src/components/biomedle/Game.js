@@ -1,27 +1,30 @@
 // Game.js
 
 import React, { useEffect, useState } from 'react';
-import Template from './Template';
+import GameTemplate from './GameTemplate';
 import PieChart from './PieChart';
 import ScoreBoard from './ScoreBoard';
 import seedrandom from 'seedrandom';
 // import { tab } from '@testing-library/user-event/dist/tab';
-import placeholderImage from '../img/india.jpg';
+import placeholderImage from '../../img/india.jpg';
 
 
 
 const Game = () => {
   // Sample data for testing
-  const chartData = {
-    labels: ['Zone A', 'Zone B', 'Zone C', 'Zone D'],
-    datasets: [
-      {
-        data: [30, 20, 25, 25], // Sample percentages for each zone
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50'],
-      },
-    ],
-  };
+  
+  const test_data = { "N/A" : "0.0026552493883793436", "Tropical & Subtropical Coniferous Forests" : "0.014041799130931882", "Tropical & Subtropical Grasslands, Savannas & Shrublands" : "0.0040364571485100075", "Tropical & Subtropical Dry Broadleaf Forests" : "0.3253791267546119" , "Temperate Conifer Forests" :"0.0020203928893080883", "Flooded Grasslands & Savannas" : "0.0032490969406740395", "Montane Grasslands & Shrublands" : "0.01075287548821517", "Mangroves"  : "0.0020553212664431763", "Rocks and Ice" : "0.0026552493883793436", "Tropical & Subtropical Moist Broadleaf Forests" : "0.3732647135596012" , "Temperate Broadleaf & Mixed Forests" : "0.012374887086274995" }
+
+  // const chartData = {
+  //   labels: ['Zone A', 'Zone B', 'Zone C', 'Zone D'],
+  //   datasets: [
+  //     {
+  //       data: [30, 20, 25, 25], // Sample percentages for each zone
+  //       backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50'],
+  //       hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50'],
+  //     },
+  //   ],
+  // };
 
   const colors = {'Deserts & Xeric Shrublands': '#FA647F', 'N/A': '#E2E2E0', 'Tropical & Subtropical Moist Broadleaf Forests': '#304A00', 'Mediterranean Forests, Woodlands & Scrub': '#FFA77F', 'Temperate Broadleaf & Mixed Forests': '#267300', 'Tropical & Subtropical Coniferous Forests': '#00734C', 'Temperate Conifer Forests': '#92BA71', 'Boreal Forests/Taiga': '#E2C7FA', 'Flooded Grasslands & Savannas': '#5993B9', 'Temperate Grasslands, Savannas & Shrublands': '#F6FC38', 'Montane Grasslands & Shrublands': '#C98D68', 'Tropical & Subtropical Dry Broadleaf Forests': '#99C726', 'Tropical & Subtropical Grasslands, Savannas & Shrublands': '#FBA141', 'Mangroves': '#E600AA', 'Tundra': '#4C82B6'}
   const countries = ['andorra', 'united arab emirates', 'afghanistan', 'antigua and barbuda', 'anguilla', 'albania', 'armenia', 'angola', 'antarctica', 'argentina', 'american samoa', 'austria', 'australia', 'aruba', 'åland islands', 'azerbaijan', 'bosnia and herzegovina', 'barbados', 'bangladesh', 'belgium', 'burkina faso', 'bulgaria', 'bahrain', 'burundi', 'benin', 'saint barthélemy', 'bermuda', 'brunei darussalam', 'bolivia, plurinational state of', 'bonaire, sint eustatius and saba', 'brazil', 'bahamas', 'bhutan', 'bouvet island', 'botswana', 'belarus', 'belize', 'canada', 'cocos (keeling) islands', 'congo, democratic republic of the', 'central african republic', 'congo', 'switzerland', 'côte d\'ivoire', 'cook islands', 'chile', 'cameroon', 'china', 'colombia', 'costa rica', 'cuba', 'cabo verde', 'curaçao', 'christmas island', 'cyprus', 'czechia', 'germany', 'djibouti', 'denmark', 'dominica', 'dominican republic', 'algeria', 'ecuador', 'estonia', 'egypt', 'western sahara', 'eritrea', 'spain', 'ethiopia', 'finland', 'fiji', 'falkland islands (malvinas)', 'micronesia, federated states of', 'faroe islands', 'france', 'gabon', 'united kingdom of great britain and northern ireland', 'grenada', 'georgia', 'french guiana', 'guernsey', 'ghana', 'gibraltar', 'greenland', 'gambia', 'guinea', 'guadeloupe', 'equatorial guinea', 'greece', 'south georgia and the south sandwich islands', 'guatemala', 'guam', 'guinea-bissau', 'guyana', 'hong kong', 'heard island and mcdonald islands', 'honduras', 'croatia', 'haiti', 'hungary', 'indonesia', 'ireland', 'israel', 'isle of man', 'india', 'british indian ocean territory', 'iraq', 'iran, islamic republic of', 'iceland', 'italy', 'jersey', 'jamaica', 'jordan', 'japan', 'kenya', 'kyrgyzstan', 'cambodia', 'kiribati', 'comoros', 'saint kitts and nevis', 'korea, democratic people\'s republic of', 'korea, republic of', 'kuwait', 'cayman islands', 'kazakhstan', 'lao people\'s democratic republic', 'lebanon', 'saint lucia', 'liechtenstein', 'sri lanka', 'liberia', 'lesotho', 'lithuania', 'luxembourg', 'latvia', 'libya', 'morocco', 'monaco', 'moldova, republic of', 'montenegro', 'saint martin, (french part)', 'madagascar', 'marshall islands', 'north macedonia', 'mali', 'myanmar', 'mongolia', 'macao', 'northern mariana islands', 'martinique', 'mauritania', 'montserrat', 'malta', 'mauritius', 'maldives', 'malawi', 'mexico', 'malaysia', 'mozambique', 'namibia', 'new caledonia', 'niger', 'norfolk island', 'nigeria', 'nicaragua', 'netherlands', 'norway', 'nepal', 'nauru', 'niue', 'new zealand', 'oman', 'panama', 'peru', 'french polynesia', 'papua new guinea', 'philippines', 'pakistan', 'poland', 'saint pierre and miquelon', 'pitcairn', 'puerto rico', 'palestine, state of', 'portugal', 'palau', 'paraguay', 'qatar', 'réunion', 'romania', 'serbia', 'russia', 'rwanda', 'saudi arabia', 'solomon islands', 'seychelles', 'sudan', 'sweden', 'singapore', 'saint helena, ascension and tristan da cunha', 'slovenia', 'svalbard and jan mayen', 'slovakia', 'sierra leone', 'san marino', 'senegal', 'somalia', 'suriname', 'south sudan', 'sao tome and principe', 'el salvador', 'sint maarten, (dutch part)', 'syrian arab republic', 'eswatini', 'turks and caicos islands', 'chad', 'french southern territories', 'togo', 'thailand', 'tajikistan', 'tokelau', 'timor-leste', 'turkmenistan', 'tunisia', 'tonga', 'türkiye', 'trinidad and tobago', 'tuvalu', 'taiwan, province of china', 'tanzania, united republic of', 'ukraine', 'uganda', 'united states minor outlying islands', 'united states of america', 'uruguay', 'uzbekistan', 'holy see', 'saint vincent and the grenadines', 'venezuela, bolivarian republic of', 'virgin islands, british', 'virgin islands, u.s.', 'viet nam', 'vanuatu', 'wallis and futuna', 'samoa', 'yemen', 'mayotte', 'south africa', 'zambia', 'zimbabwe']
@@ -31,7 +34,18 @@ const Game = () => {
   const country_image_url = 'https://7bwp04kcs8.execute-api.us-west-2.amazonaws.com/prod/country/image?countryName='
   const countries_set = new Set(countries)
 
-  // get a random country based on the current day
+  const getChartData = (in_data) => {
+    let ret_data = {labels:[], datasets:[{data:[],backgroundColor:[],hoverBackgroundColor:[]}]}
+    for (let key in in_data) {
+      ret_data["labels"].push(key)
+      ret_data["datasets"][0]["data"].push(in_data[key])
+      ret_data["datasets"][0]["backgroundColor"].push(colors[key])
+      ret_data["datasets"][0]["hoverBackgroundColor"].push(colors[key])
+    }
+    return ret_data
+
+  }
+
   const getRandomCountryOfTheDay = () => {
     const currentDate = new Date();
     const seed = currentDate.getUTCFullYear().toString() + (currentDate.getUTCMonth()).toString() + currentDate.getUTCDate().toString();
@@ -54,6 +68,8 @@ const Game = () => {
   const currCountry = getRandomCountryOfTheDay()
   const scoreBoard = ScoreBoard(10)
   const [showImage, setImgVisible] = useState(false);
+  let chartData = getChartData(test_data)
+  console.log(chartData)
 
   const callAPI = async (endpoint) => {
     try {
@@ -115,11 +131,8 @@ const Game = () => {
   
   const fetchImage = async () => {
     const res = await callAPI(country_image_url + currCountry);
-    // console.log("response", res)
-    // console.log("res.image", res.image)
     const img = res ? `data:image/png;base64,${res.image}` : `data:image/png;base64,${placeholderImage}`
     setImg(img);
-    // setImgVisible(true)
   };
 
   useEffect(() => {
@@ -128,7 +141,7 @@ const Game = () => {
   
 
   return (
-    <Template>
+    <GameTemplate>
       <div>
         <h2>Country: Sample Country</h2>
         <p>Environmental Zones by Relative Land Area</p>
@@ -177,7 +190,7 @@ const Game = () => {
         {scoreBoard}
       </div>
       </div>
-    </Template>
+    </GameTemplate>
   );
 };
 

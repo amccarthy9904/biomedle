@@ -1,13 +1,13 @@
 // Template.js
 
 import React from 'react';
-import './Template.css'; // Import your CSS file
+import '../Template.css'; // Import your CSS file
 
-const Template = ({ children }) => {
+const GameTemplate = ({ children }) => {
   return (
     <div className="template">
       <header>
-          <h1>Home</h1>
+          <h1>Biomedle</h1>
       </header>
       
       
@@ -23,4 +23,4 @@ const Template = ({ children }) => {
   );
 };
 
-export default Template;
+export default GameTemplate;
