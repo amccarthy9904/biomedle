@@ -57,6 +57,9 @@ const Game = () => {
       randomCountry = countries[randomIndex + 1]
     }
     console.log(randomCountry)
+
+    let response = callAPI(country_data_url + encodeURIComponent(randomCountry))
+    console.log(response)
     return randomCountry;
   };
 
