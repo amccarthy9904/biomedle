@@ -46,6 +46,21 @@ const Game = () => {
 
   }
 
+  const callAPI = async (endpoint) => {
+    try {
+      const response = await fetch(endpoint, {
+        method: 'GET'
+      });
+      const data = await response.json();
+      console.log('Data from API:', data);
+      return data
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      return 
+    }
+  }
+
+
   const getRandomCountryOfTheDay = () => {
     const currentDate = new Date();
     const seed = currentDate.getUTCFullYear().toString() + (currentDate.getUTCMonth()).toString() + currentDate.getUTCDate().toString();
@@ -73,20 +88,6 @@ const Game = () => {
   const [showImage, setImgVisible] = useState(false);
   let chartData = getChartData(test_data)
   console.log(chartData)
-
-  const callAPI = async (endpoint) => {
-    try {
-      const response = await fetch(endpoint, {
-        method: 'GET'
-      });
-      const data = await response.json();
-      console.log('Data from API:', data);
-      return data
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      return 
-    }
-  }
 
   const getSuggestedCountries = () => {
     return country_names
