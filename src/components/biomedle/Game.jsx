@@ -200,7 +200,7 @@ const Game = () => {
     async function start(){
       let country = await getRandomCountryOfTheDay()
       await setCurrCountry(country)
-      fetchImage();
+      await fetchImage();
     }
     start()
   }, []);
