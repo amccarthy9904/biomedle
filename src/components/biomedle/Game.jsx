@@ -215,9 +215,11 @@ const Game = () => {
     <GameTemplate>
       <div>
         <h2>Environmental Zones by Relative Land Area</h2>
-        { todaysCountryData &&
-          <h4>Total Area : {todaysCountryData.total_area} km<sup>2</sup></h4> &&
-          <PieChart data={todaysCountryData} />
+        {todaysCountryData &&
+          <div>
+            <h4>Total Area : {todaysCountryData.total_area} km<sup>2</sup></h4>
+            <PieChart data={todaysCountryData} />
+          </div>
         }
 
       </div>
