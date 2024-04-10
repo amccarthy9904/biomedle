@@ -144,7 +144,8 @@ const Game = () => {
       console.log('Country found:', input);
 
       let response = await callAPI(country_data_url + encodeURIComponent(input))
-      console.log("onguess data api call response " + response)
+      console.log("onguess data api call response ")
+      console.log(response)
 
       let data = {}
       if (!response || !response.ok) {
