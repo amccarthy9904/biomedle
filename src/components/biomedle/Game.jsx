@@ -5,7 +5,6 @@ import GameTemplate from './GameTemplate';
 import PieChart from './PieChart';
 import ScoreBoard from './ScoreBoard';
 import seedrandom from 'seedrandom';
-// import { tab } from '@testing-library/user-event/dist/tab';
 import placeholderImage from '../../img/india.jpg';
 
 
@@ -20,7 +19,6 @@ const Game = () => {
       ret_data["datasets"][0]["backgroundColor"].push(colors[key])
       ret_data["datasets"][0]["hoverBackgroundColor"].push(colors[key])
     }
-    console.log(Math.round(in_data.total_area / 1000000))
     ret_data.total_area = Math.round(in_data.total_area / 1000000)
     ret_data.name = in_data.country
     return ret_data
@@ -84,6 +82,7 @@ const Game = () => {
         method: 'GET'
       });
       const data = await response.json();
+      console.log(endpoint)
       console.log('Data from API:', data);
       return data
     } catch (error) {
