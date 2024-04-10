@@ -149,7 +149,7 @@ const Game = () => {
       console.log(response)
 
       let data = {}
-      if (!response || !response.ok) {
+      if (!response || response.ResponseMetadata.HTTPStatusCode !== 200) {
         data = getChartData(test_data)
       }
       else {
