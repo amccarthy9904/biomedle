@@ -74,6 +74,10 @@ const Game = () => {
     localStorage.setItem("SCORES", JSON.stringify({ 'scores': scores, 'country': currCountry }))
   }, [scores])
 
+  useEffect(() => {
+    fetchImage()
+  }, [currCountry]  )
+
 
 
   const callAPI = async (endpoint) => {
@@ -200,7 +204,10 @@ const Game = () => {
     async function start(){
       let country = await getRandomCountryOfTheDay()
       await setCurrCountry(country)
-      await fetchImage();
+      console.log(currCountry)
+      console.log(currCountry)
+      console.log(currCountry)
+      // await fetchImage();
     }
     start()
   }, []);
