@@ -105,7 +105,7 @@ const Game = () => {
     const response = await callAPI(country_data_url + encodeURIComponent(randomCountry))
     console.log("getRandCountry data api call response ")
     console.log(response)
-    if (!response || !response.ok) {
+    if (!response || response.ResponseMetadata.HTTPStatusCode !== 200) {
       setChartData(getChartData(test_data))
       console.log("setting to test chart data")
     }
