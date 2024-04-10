@@ -189,7 +189,6 @@ const Game = () => {
         { name: name, area: area, id: crypto.randomUUID() },
       ]
     })
-    setGuessCount(scores.length + 1)
   }
 
   const purgeData = () => {
