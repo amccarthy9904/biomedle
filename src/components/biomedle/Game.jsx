@@ -244,7 +244,7 @@ const Game = () => {
         </datalist>
         <button onClick={() => onGuess()}>Guess</button>
         {/* Render the PieChart component with the data from the latest guess */}
-        {latestGuess && <PieChart data={guessChartData} />}
+        {guessChartData && <PieChart data={guessChartData} />}
 
         {/* Info popup for not found message */}
         {infoPopupVisible && (
