@@ -55,8 +55,9 @@ const Game = () => {
   const [guessChartData, setGuessChartData] = useState(null);
   const countries_set = new Set(countries)
   const [userInput, setUserInput] = useState('');
-  const [latestGuess, setLatestGuess] = useState(null);
+  // const [latestGuess, setLatestGuess] = useState(null);
   const [infoPopupVisible, setInfoPopupVisible] = useState(false);
+  const [failurePopupVisible, setFailurePopupVisible] = useState(false);
   const [todaysCountryImg, setTodaysCountryImg] = useState('')
   const [todaysCountryData, setTodaysCountryData] = useState('')
   const [todaysCountry, setTodaysCountry] = useState('')
@@ -69,8 +70,6 @@ const Game = () => {
     console.log(JSON.parse(local).scores)
     return JSON.parse(local).scores
   });
-
-  const [guessCount, setGuessCount] = useState(0);
   const [guessLimit, setGuessLimit] = useState(10);
   const [showImage, setImgVisible] = useState(false);
 
@@ -80,7 +79,7 @@ const Game = () => {
 
   useEffect(() => {
     fetchImage()
-  }, [todaysCountry]  )
+  }, [todaysCountry])
 
 
 
@@ -122,7 +121,7 @@ const Game = () => {
     console.log(scores)
     let local = JSON.parse(localStorage.getItem("SCORES"))
 
-    if (local !== null && local.country !== randomCountry){
+    if (local !== null && local.country !== randomCountry) {
       localStorage.setItem("SCORES", JSON.stringify({ 'scores': [], 'country': randomCountry }))
     }
     setTodaysCountry(randomCountry)
@@ -141,7 +140,6 @@ const Game = () => {
     console.log('User Guessed:', input);
 
     if (countries_set.has(input)) {
-      setLatestGuess(userInput);
       console.log('Country found:', input);
 
       let response = await callAPI(country_data_url + encodeURIComponent(input))
@@ -169,11 +167,19 @@ const Game = () => {
     else {
       setInfoPopupVisible(true);
     }
+    if (scores.length+1 >= guessLimit){
+      setFailurePopupVisible(true)
+    }
+    console.log(scores.length+1)
+    console.log(guessLimit)
 
   };
 
   const closeInfoPopup = () => {
     setInfoPopupVisible(false);
+  };
+  const closeFailurePopup = () => {
+    setFailurePopupVisible(false);
   };
 
   function addScore(name, area) {
@@ -192,7 +198,7 @@ const Game = () => {
 
   const fetchImage = async () => {
     let img = ''
-    if (todaysCountry){
+    if (todaysCountry) {
       const res = await callAPI(country_image_url + todaysCountry);
       img = res ? `data:image/png;base64,${res.image}` : `data:image/png;base64,${placeholderImage}`
     }
@@ -204,7 +210,7 @@ const Game = () => {
   };
 
   useEffect(() => {
-    async function start(){
+    async function start() {
       await getRandomCountryOfTheDay()
     }
     start()
@@ -244,7 +250,10 @@ const Game = () => {
             <option key={index} value={country} />
           ))}
         </datalist>
-        <button onClick={() => onGuess()}>Guess</button>
+        {
+          (scores.length < guessLimit) &&
+          <button onClick={() => onGuess()}>Guess</button>
+        }
         {/* Render the PieChart component with the data from the latest guess */}
         {guessChartData && <PieChart data={guessChartData} />}
 
@@ -255,12 +264,19 @@ const Game = () => {
             <button onClick={() => closeInfoPopup()}>Close</button>
           </div>
         )}
+        {/* Failure popup for not found message */}
+        {failurePopupVisible && (
+          <div>
+            <p>You lost.</p>
+            <button onClick={() => closeFailurePopup()}>Close</button>
+          </div>
+        )}
 
         <button onClick={() => getRandomCountryOfTheDay()}>get_todays_country</button>
 
         <div>
           <p>scoreboard</p>
-          <ScoreBoard scores={scores} guessCount={guessCount} guessLimit={guessLimit} addScore={addScore} />
+          <ScoreBoard scores={scores} guessLimit={guessLimit} addScore={addScore} />
           <button onClick={() => purgeData()}>purge data</button>
 
         </div>
