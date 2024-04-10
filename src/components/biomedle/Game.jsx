@@ -195,19 +195,22 @@ const Game = () => {
   }
 
   const fetchImage = async () => {
-    const res = await callAPI(country_image_url + currCountry);
-    const img = res ? `data:image/png;base64,${res.image}` : `data:image/png;base64,${placeholderImage}`
+    let img = ''
+    if (currCountry){
+      const res = await callAPI(country_image_url + currCountry);
+      img = res ? `data:image/png;base64,${res.image}` : `data:image/png;base64,${placeholderImage}`
+    }
+    else {
+      img = `data:image/png;base64,${placeholderImage}`
+    }
     setImg(img);
+
   };
 
   useEffect(() => {
     async function start(){
       let country = await getRandomCountryOfTheDay()
       await setCurrCountry(country)
-      console.log(currCountry)
-      console.log(currCountry)
-      console.log(currCountry)
-      // await fetchImage();
     }
     start()
   }, []);
