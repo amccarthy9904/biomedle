@@ -125,8 +125,7 @@ const Game = () => {
     if (local !== null && local.country !== randomCountry){
       localStorage.setItem("SCORES", JSON.stringify({ 'scores': [], 'country': randomCountry }))
     }
-
-    return randomCountry;
+    setTodaysCountry(randomCountry)
   };
 
 
@@ -206,8 +205,7 @@ const Game = () => {
 
   useEffect(() => {
     async function start(){
-      let country = await getRandomCountryOfTheDay()
-      await setTodaysCountry(country)
+      await getRandomCountryOfTheDay()
     }
     start()
   }, []);
