@@ -27,16 +27,16 @@ const Game = () => {
 
   }
 
-  const def_chartData = {
-    labels: ['Zone A', 'Zone B', 'Zone C', 'Zone D'],
-    datasets: [
-      {
-        data: [30, 20, 25, 25], // Sample percentages for each zone
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50'],
-      },
-    ],
-  };
+  // const def_chartData = {
+  //   labels: ['Zone A', 'Zone B', 'Zone C', 'Zone D'],
+  //   datasets: [
+  //     {
+  //       data: [30, 20, 25, 25], // Sample percentages for each zone
+  //       backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50'],
+  //       hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50'],
+  //     },
+  //   ],
+  // };
   const test_data = {
     "total_area": 598637506463.6848,
     "country": "ukraine",
@@ -107,9 +107,11 @@ const Game = () => {
     console.log("getRandCountry data api call response " + response)
     if (!response || !response.ok) {
       setChartData(getChartData(test_data))
+      console.log("setting to test chart data")
     }
     else {
       setChartData(getChartData(response.Item))
+      console.log("setting to actual chart data")
     }
     console.log(chartData)
     let local = JSON.parse(localStorage.getItem("SCORES"))
@@ -196,7 +198,8 @@ const Game = () => {
   useEffect(() => {
     async function start(){
       fetchImage();
-      await setCurrCountry(await getRandomCountryOfTheDay())
+      let country = await getRandomCountryOfTheDay()
+      await setCurrCountry(country)
     }
     start()
   }, []);
