@@ -12,6 +12,8 @@ import placeholderImage from '../../img/india.jpg';
 const Game = () => {
 
   const getChartData = (in_data) => {
+    console.log("getChartData")
+    console.log(in_data)
     let ret_data = { labels: [], datasets: [{ data: [], backgroundColor: [], hoverBackgroundColor: [] }] }
     for (let key in in_data['eco_data']) {
       ret_data["labels"].push(key)
@@ -57,12 +59,14 @@ const Game = () => {
   const [infoPopupVisible, setInfoPopupVisible] = useState(false);
   const [todaysCountryImg, setTodaysCountryImg] = useState('')
   const [todaysCountryData, setTodaysCountryData] = useState('')
-  const [todaysCountry, setTodaysCountry] = useState()
+  const [todaysCountry, setTodaysCountry] = useState('')
   const [scores, setScores] = useState(() => {
     const local = localStorage.getItem("SCORES")
     if (local === null || local.scores === null) {
       return []
     }
+    console.log("readiong from local")
+    console.log(JSON.parse(local).scores)
     return JSON.parse(local).scores
   });
 
@@ -105,17 +109,17 @@ const Game = () => {
       randomCountry = countries[randomIndex + 1]
     }
     const response = await callAPI(country_data_url + encodeURIComponent(randomCountry))
-    // console.log("getRandCountry data api call response ")
-    // console.log(response)
+
     if (!response || response.ResponseMetadata.HTTPStatusCode !== 200) {
-      setGuessChartData(getChartData(test_data))
+      setTodaysCountryData(getChartData(test_data))
       console.log("setting to test chart data")
     }
     else {
-      setGuessChartData(getChartData(response.Item))
+      setTodaysCountryData(getChartData(response.Item))
       console.log("setting to actual chart data")
     }
     console.log(guessChartData)
+    console.log(scores)
     let local = JSON.parse(localStorage.getItem("SCORES"))
 
     if (local !== null && local.country !== randomCountry){
@@ -213,9 +217,10 @@ const Game = () => {
     <GameTemplate>
       <div>
         <h2>Environmental Zones by Relative Land Area</h2>
-        <h4>Total Area : {todaysCountryData.total_area} km<sup>2</sup></h4>
-        <PieChart data={todaysCountryData} />
-
+        { todaysCountryData &&
+          <h4>Total Area : {todaysCountryData.total_area} km<sup>2</sup></h4> &&
+          <PieChart data={todaysCountryData} />
+        }
 
       </div>
       <div>

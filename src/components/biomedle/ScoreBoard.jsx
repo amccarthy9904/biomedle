@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Score from './Score';
-const Scoreboard = ({ scores, guessCount, guessLimit }) => {
+const Scoreboard = ({ scores, guessLimit }) => {
 
   return (
     <div>
@@ -8,7 +8,7 @@ const Scoreboard = ({ scores, guessCount, guessLimit }) => {
         <p>{scores.length} / {guessLimit} </p>
       </div>
       <ul className='score_list'>
-        {scores.map((score) => {
+        {scores && scores.map((score) => {
           return (
             <Score 
             {...scores}
