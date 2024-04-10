@@ -198,9 +198,9 @@ const Game = () => {
 
   useEffect(() => {
     async function start(){
-      fetchImage();
       let country = await getRandomCountryOfTheDay()
       await setCurrCountry(country)
+      fetchImage();
     }
     start()
   }, []);
