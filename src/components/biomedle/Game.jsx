@@ -52,7 +52,7 @@ const Game = () => {
   const broken_countries = new Set(['russia', 'australia', 'united states of america'])
   const country_data_url = 'https://7bwp04kcs8.execute-api.us-west-2.amazonaws.com/prod/country/data?countryName='
   const country_image_url = 'https://7bwp04kcs8.execute-api.us-west-2.amazonaws.com/prod/country/image?countryName='
-  const [guessChartData, setGuessChartData] = useState({});
+  const [guessChartData, setGuessChartData] = useState(null);
   const countries_set = new Set(countries)
   const [userInput, setUserInput] = useState('');
   const [latestGuess, setLatestGuess] = useState(null);
